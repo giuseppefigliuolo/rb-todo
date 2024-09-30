@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { API_BASE_URL } from '../../config.ts'
+import Todo, { ITodo } from './Todo.tsx'
 
 const List = () => {
   const { data, isLoading, isError } = useQuery({
@@ -10,13 +11,15 @@ const List = () => {
         .then((data) => data)
   })
 
+  console.log(data)
+
   return (
     <div>
       {isLoading
         ? 'Loading...'
         : isError
         ? 'Error'
-        : data.map((todo: any) => <div key={todo.id}>{todo.title}</div>)}
+        : data.map((todo: ITodo) => <Todo key={todo.id} todo={todo} />)}
     </div>
   )
 }

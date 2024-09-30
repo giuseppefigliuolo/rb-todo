@@ -6,6 +6,7 @@ export default {
       colors: {
         primary: '#261041',
         primaryLight: '#261041',
+        primaryLight20: 'rgba(38, 16, 65, 0.2)',
         danger: '#D91B24',
         warning: '#FFA201',
         accent: '#8400FF'

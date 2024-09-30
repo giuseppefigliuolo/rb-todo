@@ -9,10 +9,14 @@
 
   color-scheme: light dark;
   color: theme('colors.primary');
-  background: #fff;
+  background: #7da6ff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  padding: 2rem;
 }

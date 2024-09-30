@@ -12,6 +12,7 @@ function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
+          <h1>Redbox Todo-List</h1>
           <InputSection />
           <List />
         </ThemeProvider>
