@@ -9,6 +9,7 @@
 
   color-scheme: light dark;
   color: theme('colors.primary');
+  background: #fff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

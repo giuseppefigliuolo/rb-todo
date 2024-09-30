@@ -7,7 +7,7 @@ const twColors = resolveConfig(tailwindConfig).theme.colors
 const theme = createTheme({
   palette: {
     primary: {
-      main: twColors.warning
+      main: twColors.primaryLight
     }
   },
   typography: {

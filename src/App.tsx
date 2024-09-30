@@ -1,14 +1,21 @@
-import { Button, ThemeProvider } from '@mui/material'
+import { ThemeProvider } from '@mui/material'
 import './App.css'
 import theme from './utils/muiTheme'
+import InputSection from './components/InputSection'
+import List from './components/List'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 function App() {
+  const queryClient = new QueryClient()
+
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <h1>Hello</h1>
-        <Button variant="contained">Hello world</Button>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <InputSection />
+          <List />
+        </ThemeProvider>
+      </QueryClientProvider>
     </>
   )
 }
