@@ -4,6 +4,10 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { API_BASE_URL } from '../../config'
+import {
+  Done as DoneIcon,
+  DoNotDisturb as DoNotDisturbIcon
+} from '@mui/icons-material'
 
 export interface ITodo {
   id: string
@@ -36,7 +40,7 @@ const Todo = ({ todo }: { todo: ITodo }) => {
   })
 
   const editTodo = useMutation({
-    mutationFn: () => {
+    mutationFn: (toggleCompletion?: boolean) => {
       return fetch(`${API_BASE_URL}/todos/${todo.id}`, {
         method: 'PUT',
         headers: {
@@ -45,24 +49,23 @@ const Todo = ({ todo }: { todo: ITodo }) => {
         body: JSON.stringify({
           title: inputTitle,
           description: inputDescription,
-          completed: todo.completed,
+          completed: toggleCompletion ? !todo.completed : todo.completed,
           id: todo.id
         })
       })
     },
-    onSuccess: (e) => {
-      console.log(e)
+    onSuccess: () => {
       setIsEditing(false)
       queryClient.invalidateQueries({ queryKey: ['todos'] })
-    },
-    onError: (e) => {
-      console.log(e)
-      console.log(`${API_BASE_URL}/todos/${todo.id}`)
     }
   })
 
   return (
-    <Paper>
+    <Paper
+      className={`cursor-pointer ${
+        todo.completed ? '!bg-indigo-500 opacity-80' : ''
+      }`}
+    >
       <div className="items-center mx-auto my-2 p-6 flex justify-between">
         {isEditing ? (
           <>
@@ -91,8 +94,9 @@ const Todo = ({ todo }: { todo: ITodo }) => {
               <div className="mt-4 flex flex-row-reverse">
                 <Button
                   variant="contained"
-                  onClick={() => editTodo.mutate()}
+                  onClick={() => editTodo.mutate(false)}
                   style={{ minWidth: '100px' }}
+                  disabled={inputTitle.length === 0}
                 >
                   Save
                 </Button>
@@ -102,12 +106,29 @@ const Todo = ({ todo }: { todo: ITodo }) => {
         ) : (
           <Stack direction="row" justifyContent="space-between">
             <div>
-              <h3 className="font-bold capitalize">{todo.title}</h3>
-              <p className="font-light">{todo.description}</p>
+              <h3
+                className={`font-bold capitalize ${
+                  todo.completed ? 'line-through' : ''
+                }`}
+              >
+                {todo.title}
+              </h3>
+              <p
+                className={`font-light ${todo.completed ? 'line-through' : ''}`}
+              >
+                {todo.description}
+              </p>
             </div>
           </Stack>
         )}
         <div>
+          <IconButton
+            aria-label="done"
+            color="primary"
+            onClick={() => editTodo.mutate(true)}
+          >
+            {todo.completed ? <DoNotDisturbIcon /> : <DoneIcon />}
+          </IconButton>
           <IconButton
             aria-label="edit"
             color="primary"

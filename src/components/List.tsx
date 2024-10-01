@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { API_BASE_URL } from '../../config.ts'
 import Todo, { ITodo } from './Todo.tsx'
+import { Skeleton } from '@mui/material'
 
 const List = () => {
   const { data, isLoading, isError } = useQuery({
@@ -11,15 +12,25 @@ const List = () => {
         .then((data) => data)
   })
 
-  console.log(data)
-
   return (
     <div>
-      {isLoading
-        ? 'Loading...'
-        : isError
-        ? 'Error'
-        : data.map((todo: ITodo) => <Todo key={todo.id} todo={todo} />)}
+      {isLoading ? (
+        <div className="mt-5">
+          {[...Array(6).keys()].map((el) => (
+            <Skeleton
+              key={el}
+              variant="rectangular"
+              width="100%"
+              height={50}
+              classes={{ root: 'mt-6' }}
+            />
+          ))}
+        </div>
+      ) : isError ? (
+        'Error'
+      ) : (
+        data.map((todo: ITodo) => <Todo key={todo.id} todo={todo} />)
+      )}
     </div>
   )
 }

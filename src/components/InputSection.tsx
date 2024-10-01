@@ -1,4 +1,4 @@
-import { Button, Grid2 as Grid, Paper, TextField } from '@mui/material'
+import { Button, Paper, TextField } from '@mui/material'
 import { useState } from 'react'
 import { API_BASE_URL } from '../../config'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -27,6 +27,8 @@ const InputSection = () => {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['todos'] })
+      setTitle('')
+      setDescription('')
     }
   })
 
@@ -63,6 +65,7 @@ const InputSection = () => {
             variant="contained"
             onClick={() => addTodo.mutate()}
             style={{ minWidth: '100px' }}
+            disabled={title.length === 0}
           >
             Add
           </Button>
